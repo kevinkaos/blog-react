@@ -9,7 +9,6 @@ import {
   Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -23,10 +22,7 @@ export default function Login() {
     >
       <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
         <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            to enjoy all of our cool <Link color={"blue.400"}>features</Link> ✌️
-          </Text>
+          <Heading fontSize={"4xl"}>Sign in</Heading>
         </Stack>
         <Box
           rounded={"lg"}
@@ -43,6 +39,7 @@ export default function Login() {
               <FormLabel>Password</FormLabel>
               <Input type="password" />
             </FormControl>
+
             <Stack spacing={10}>
               <Stack
                 direction={{ base: "column", sm: "row" }}
@@ -50,7 +47,19 @@ export default function Login() {
                 justify={"space-between"}
               >
                 <Checkbox>Remember me</Checkbox>
-                <Link color={"blue.400"}>Forgot password?</Link>
+                <Link href="/register" color={"blue.400"}>
+                  Register
+                </Link>
+                <Link color={"red.400"}>Forgot password?</Link>
+              </Stack>
+              <Stack
+                direction={{ base: "column", sm: "row" }}
+                align={"start"}
+                justify={"space-between"}
+              >
+                <Link color={"blue.400"} href="/">
+                  View Home
+                </Link>
               </Stack>
               <Button
                 bg={"blue.400"}

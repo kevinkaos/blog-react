@@ -9,13 +9,13 @@ const Header = ({ authed, logout }) => {
     <div className="site-page-header-ghost-wrapper">
       <PageHeader
         ghost={false}
-        title={<button onClick={() => history.push("/")}>Home</button>}
+        title={<Button onClick={() => history.push("/")}>Home</Button>}
         onClick={() => history.push("/")}
-        subTitle={
-          <button onClick={() => history.push("/dashboard")}>
-            Read up on cool blogs
-          </button>
-        }
+        // subTitle={
+        //   <button onClick={() => history.push("/dashboard")}>
+        //     Read up on cool blogs
+        //   </button>
+        // }
         extra={
           authed
             ? [

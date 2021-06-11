@@ -1,5 +1,5 @@
 import { Form, Input, Button, PageHeader } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import React from "react";
 import apis from "../api/apis";
 import { useHistory } from "react-router-dom";
@@ -46,7 +46,7 @@ const Login = ({ login }) => {
           ]}
         >
           <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
+            prefix={<MailOutlined className="site-form-item-icon" />}
             placeholder="E-Mail"
           />
         </Form.Item>

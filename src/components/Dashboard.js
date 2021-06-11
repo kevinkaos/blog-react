@@ -1,50 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Comment, Tooltip, List } from "antd";
+import { Comment, List } from "antd";
 import moment from "moment";
-import ReplyBox from "./ReplyBox";
+// import ReplyBox from "./ReplyBox";
 import Header from "./Header";
 import apis from "../api/apis";
-
-const data = [
-  {
-    actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-    author: "Han Solo",
-    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure), to help people create their
-        product prototypes beautifully and efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip
-        title={moment().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss")}
-      >
-        <span>{moment().subtract(1, "days").fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-  {
-    actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-    author: "Han Solo",
-    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    content: (
-      <p>
-        We supply a series of design principles, practical patterns and high
-        quality design resources (Sketch and Axure), to help people create their
-        product prototypes beautifully and efficiently.
-      </p>
-    ),
-    datetime: (
-      <Tooltip
-        title={moment().subtract(2, "days").format("YYYY-MM-DD HH:mm:ss")}
-      >
-        <span>{moment().subtract(2, "days").fromNow()}</span>
-      </Tooltip>
-    ),
-  },
-];
 
 const Dashboard = ({ authed, logout }) => {
   const [allPosts, setAllPosts] = useState([]);
@@ -62,20 +21,20 @@ const Dashboard = ({ authed, logout }) => {
       <div className="dashboard-wrapper">
         <List
           className="comment-list"
-          header={`${data.length} replies`}
+          header={`${allPosts.length && allPosts.length} replies`}
           itemLayout="horizontal"
           dataSource={allPosts}
           renderItem={(item) => (
             <li>
               <Comment
+                actions={[<span key="comment-list-reply-to-0">Reply to</span>]}
                 author={item.user.username}
                 content={item.body}
-                datetime={item.updated_at}
+                datetime={moment(item.updated_at).fromNow()}
               />
             </li>
           )}
         />
-        <ReplyBox />
       </div>
     </div>
   );

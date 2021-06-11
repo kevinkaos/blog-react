@@ -1,67 +1,113 @@
-import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Checkbox,
-  Stack,
-  Link,
-  Button,
-  Heading,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Form, Input, Button, PageHeader } from "antd";
+import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import React from "react";
+import apis from "../api/apis";
+import { useHistory } from "react-router-dom";
 
-export default function Login() {
+const Register = ({ register }) => {
+  const history = useHistory();
+
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+    apis.get.csrfCookie().then(() => {
+      apis.post.register(values).then((res) => {
+        if (res.status === 201) {
+          register(res.data.token);
+          history.push("/");
+        }
+      });
+    });
+  };
+
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Register</Heading>
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
+    <div id="components-form-demo-normal-login" className="center">
+      <PageHeader title="Register" />
+      <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          email: "",
+          username: "",
+          password: "",
+          password_confirmation: "",
+        }}
+        onFinish={onFinish}
+      >
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Email!",
+            },
+            {
+              type: "email",
+              message: "Not a valid Email!",
+            },
+          ]}
         >
-          <Stack spacing={4}>
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" />
-            </FormControl>
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              >
-                <Link href="/login" color={"blue.400"}>
-                  Already have an account?
-                </Link>
-              </Stack>
-              <Button
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
-              >
-                Sign in
-              </Button>
-            </Stack>
-          </Stack>
-        </Box>
-      </Stack>
-    </Flex>
+          <Input
+            prefix={<MailOutlined className="site-form-item-icon" />}
+            placeholder="E-Mail"
+          />
+        </Form.Item>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Please input your username!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Username"
+          />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Password!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Item>
+        <Form.Item
+          name="password_confirmation"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Password again!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password Confirmation"
+          />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
-}
+};
+
+export default Register;

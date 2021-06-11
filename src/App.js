@@ -22,8 +22,9 @@ function App() {
     setAuthed(true);
   };
 
-  const register = () => {
+  const register = (token) => {
     localStorage.setItem("authed", true);
+    localStorage.setItem("token", token);
     setAuthed(true);
   };
 

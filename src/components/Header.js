@@ -17,6 +17,7 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { useHistory } from "react-router-dom";
 
 const Links = [
   { title: "Home", link: "/" },
@@ -38,8 +39,9 @@ const NavLink = ({ children, link }) => (
   </Link>
 );
 
-export default function Header({ authed }) {
+export default function Header({ authed, logout }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const history = useHistory();
 
   return (
     <>
@@ -84,7 +86,14 @@ export default function Header({ authed }) {
                 <MenuList>
                   <MenuItem>Profile</MenuItem>
                   <MenuDivider />
-                  <MenuItem>Logout</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logout();
+                      history.push("/login");
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

@@ -47,10 +47,10 @@ export const BlogAuthor = (props) => {
   );
 };
 
-const Dashboard = ({ authed }) => {
+const Dashboard = ({ authed, logout }) => {
   return (
     <div>
-      <Header authed={authed} />
+      <Header authed={authed} logout={logout} />
 
       <Container maxW={"7xl"} p="12">
         <Heading as="h1">Stories by Chakra Templates</Heading>

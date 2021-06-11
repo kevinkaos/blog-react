@@ -1,79 +1,93 @@
-import {
-  Flex,
-  Box,
-  FormControl,
-  FormLabel,
-  Input,
-  Checkbox,
-  Stack,
-  Link,
-  Button,
-  Heading,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Form, Input, Button, PageHeader } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import React from "react";
+import apis from "../api/apis";
+import { useHistory } from "react-router-dom";
 
-export default function Login() {
+const Login = ({ login }) => {
+  const history = useHistory();
+
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+    apis.get.csrfCookie().then(() => {
+      apis.post.login(values).then((res) => {
+        if (res.status === 201) {
+          login(res.data.token);
+          history.push("/");
+        }
+      });
+    });
+  };
+
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign in</Heading>
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
+    <div id="components-form-demo-normal-login" className="center">
+      <PageHeader title="Login" />
+      <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          // remember: true,
+          username: "",
+          password: "",
+        }}
+        onFinish={onFinish}
+      >
+        <Form.Item
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Email!",
+            },
+            {
+              type: "email",
+              message: "Not a valid Email!",
+            },
+          ]}
         >
-          <Stack spacing={4}>
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" />
-            </FormControl>
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="E-Mail"
+          />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Password!",
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Item>
+        {/* <Form.Item>
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
 
-            <Stack spacing={10}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              >
-                <Checkbox>Remember me</Checkbox>
-                <Link href="/register" color={"blue.400"}>
-                  Register
-                </Link>
-                <Link color={"red.400"}>Forgot password?</Link>
-              </Stack>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              >
-                <Link color={"blue.400"} href="/">
-                  View Home
-                </Link>
-              </Stack>
-              <Button
-                bg={"blue.400"}
-                color={"white"}
-                _hover={{
-                  bg: "blue.500",
-                }}
-              >
-                Sign in
-              </Button>
-            </Stack>
-          </Stack>
-        </Box>
-      </Stack>
-    </Flex>
+          <a className="login-form-forgot" href="">
+            Forgot password
+          </a>
+        </Form.Item> */}
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Log in
+          </Button>
+          Or <a href="/register">register now!</a>
+        </Form.Item>
+      </Form>
+    </div>
   );
-}
+};
+
+export default Login;

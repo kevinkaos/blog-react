@@ -5,9 +5,38 @@ import { csrfCookie } from "./index";
 const apis = {
   get: {
     csrfCookie: () => csrfCookie(),
+    getAllPosts: () =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/posts`,
+      }),
+    getPost: (postId) =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/post/${postId}`,
+      }),
+    getCategories: () =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/categories`,
+      }),
   },
   put: {},
   post: {
+    setPost: (postData) => {
+      return api({
+        method: "POST",
+        url: `${baseUrl}/api/post`,
+        data: postData,
+      });
+    },
+    updatePost: (postData, postId) => {
+      return api({
+        method: "POST",
+        url: `${baseUrl}/api/post/${postId}`,
+        data: postData,
+      });
+    },
     register: (registrationData) => {
       return api({
         method: "POST",
@@ -29,7 +58,13 @@ const apis = {
       });
     },
   },
-  delete: {},
+  delete: {
+    deletePost: (postId) =>
+      api({
+        method: "DELETE",
+        url: `${baseUrl}/api/post/${postId}`,
+      }),
+  },
 };
 
 export default apis;

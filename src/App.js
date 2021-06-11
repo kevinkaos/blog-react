@@ -5,31 +5,36 @@ import Register from "./components/Register";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import { createBrowserHistory } from "history";
 // import PrivateRoute from "./utils/PrivateRoute";
 import apis from "./api/apis";
+import "antd/dist/antd.css";
 
 function App() {
   const [authed, setAuthed] = useState(
-    Boolean(sessionStorage.getItem("authed")) === true || false
+    Boolean(localStorage.getItem("authed")) === true || false
   );
 
-  const login = () => {
-    sessionStorage.setItem("authed", true);
+  const login = (token) => {
+    localStorage.setItem("authed", true);
+    localStorage.setItem("token", token);
     setAuthed(true);
   };
 
   const register = () => {
-    sessionStorage.setItem("authed", true);
+    localStorage.setItem("authed", true);
     setAuthed(true);
   };
 
   const logout = () => {
-    sessionStorage.setItem("authed", false);
+    apis.post.logout();
+    localStorage.removeItem("token");
+    localStorage.setItem("authed", false);
     setAuthed(false);
   };
 
   return (
-    <Router>
+    <Router history={createBrowserHistory}>
       <Route
         exact
         path="/"

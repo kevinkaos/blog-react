@@ -128,10 +128,10 @@ function TestmonialCard(props) {
   );
 }
 
-export default function Home({ authed }) {
+export default function Home({ authed, logout }) {
   return (
     <div>
-      <Header authed={authed} />
+      <Header authed={authed} logout={logout} />
       <Flex
         textAlign={"center"}
         pt={10}

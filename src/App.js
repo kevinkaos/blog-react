@@ -6,13 +6,14 @@ import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { createBrowserHistory } from "history";
-// import PrivateRoute from "./utils/PrivateRoute";
+import PrivateRoute from "./utils/PrivateRoute";
 import apis from "./api/apis";
 import "antd/dist/antd.css";
 
 function App() {
   const [authed, setAuthed] = useState(
-    Boolean(localStorage.getItem("authed")) === true || false
+    // eslint-disable-next-line eqeqeq
+    localStorage.getItem("authed") == "true" || false
   );
 
   const login = (token) => {
@@ -48,11 +49,12 @@ function App() {
         path="/register"
         render={(props) => <Register {...props} register={register} />}
       />
-      <Route
+      <PrivateRoute
+        authed={authed}
+        logout={logout}
+        component={Dashboard}
         path="/dashboard"
-        render={(props) => (
-          <Dashboard {...props} logout={logout} authed={authed} />
-        )}
+        exact
       />
     </Router>
   );

@@ -191,7 +191,6 @@ export default function Home({ authed, logout }) {
           </Icon>
         </Box>
       </Flex>
-      <Footer />
     </div>
   );
 }

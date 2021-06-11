@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Comment, Tooltip, List } from "antd";
 import moment from "moment";
+import ReplyBox from "./ReplyBox";
+import Header from "./Header";
+import apis from "../api/apis";
 
 const data = [
   {
@@ -44,25 +47,36 @@ const data = [
 ];
 
 const Dashboard = ({ authed, logout }) => {
+  const [allPosts, setAllPosts] = useState([]);
+
+  useEffect(() => {
+    apis.get.getAllPosts().then((res) => {
+      console.log(res.data);
+      setAllPosts([...res.data.data.data]);
+    });
+  }, []);
+
   return (
     <div>
-      <List
-        className="comment-list"
-        header={`${data.length} replies`}
-        itemLayout="horizontal"
-        dataSource={data}
-        renderItem={(item) => (
-          <li>
-            <Comment
-              actions={item.actions}
-              author={item.author}
-              avatar={item.avatar}
-              content={item.content}
-              datetime={item.datetime}
-            />
-          </li>
-        )}
-      />
+      <Header authed={authed} logout={logout} />
+      <div className="dashboard-wrapper">
+        <List
+          className="comment-list"
+          header={`${data.length} replies`}
+          itemLayout="horizontal"
+          dataSource={allPosts}
+          renderItem={(item) => (
+            <li>
+              <Comment
+                author={item.user.username}
+                content={item.body}
+                datetime={item.updated_at}
+              />
+            </li>
+          )}
+        />
+        <ReplyBox />
+      </div>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { createBrowserHistory } from "history";
 import PrivateRoute from "./utils/PrivateRoute";
 import apis from "./api/apis";
 import "antd/dist/antd.css";
+import Header from "./components/Header";
 
 function App() {
   const [authed, setAuthed] = useState(
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <Router history={createBrowserHistory}>
+      <Header authed={authed} logout={logout} />
       <Route
         exact
         path="/"

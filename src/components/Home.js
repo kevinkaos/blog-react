@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PageHeader, Button } from "antd";
 // import moment from "moment";
 import ReplyBox from "./ReplyBox";
-import Header from "./Header";
+// import Header from "./Header";
 import apis from "../api/apis";
 import { useHistory } from "react-router-dom";
 
@@ -12,13 +12,12 @@ const Home = ({ authed, logout }) => {
 
   useEffect(() => {
     apis.get.getCategories().then((res) => {
-      console.log(res);
       setCategories(res.data.data);
     });
   }, []);
   return (
     <div>
-      <Header authed={authed} logout={logout} />
+      {/* <Header authed={authed} logout={logout} /> */}
       <div className="dashboard-wrapper">
         <PageHeader title="Home" />
         <div>

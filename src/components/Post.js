@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Comment, List } from "antd";
 import moment from "moment";
 // import ReplyBox from "./ReplyBox";
-// import Header from "./Header";
 import apis from "../api/apis";
 
-const Dashboard = ({ authed, logout }) => {
+const Post = ({ authed, logout }) => {
   const [allPosts, setAllPosts] = useState([]);
 
   useEffect(() => {
@@ -16,7 +15,6 @@ const Dashboard = ({ authed, logout }) => {
 
   return (
     <div>
-      {/* <Header authed={authed} logout={logout} /> */}
       <div className="dashboard-wrapper">
         <List
           className="comment-list"
@@ -44,4 +42,4 @@ const Dashboard = ({ authed, logout }) => {
   );
 };
 
-export default Dashboard;
+export default Post;

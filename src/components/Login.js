@@ -1,27 +1,35 @@
+import React, { useState } from "react";
 import { Form, Input, Button, PageHeader } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import React from "react";
 import apis from "../api/apis";
 import { useHistory } from "react-router-dom";
 
 const Login = ({ login }) => {
   const history = useHistory();
+  const [errors, setErrors] = useState({});
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
     apis.get.csrfCookie().then(() => {
-      apis.post.login(values).then((res) => {
-        if (res.status === 201) {
-          login(res.data.token);
-          history.push("/");
-        }
-      });
+      apis.post
+        .login(values)
+        .then((res) => {
+          if (res.status === 201) {
+            login(res.data.token);
+            history.push("/");
+          }
+        })
+        .catch((err) => {
+          setErrors(err.response.data);
+        });
     });
   };
 
   return (
     <div id="components-form-demo-normal-login" className="center">
       <PageHeader title="Login" />
+      {Object.keys(errors).length !== 0 && (
+        <div style={{ color: "red" }}>{errors.message}</div>
+      )}
       <Form
         name="normal_login"
         className="login-form"

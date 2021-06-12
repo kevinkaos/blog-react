@@ -8,7 +8,6 @@ const api = (config) => {
     Authorization: `Bearer ${localStorage.getItem("token") || null}`,
   };
   return axios(config).catch((err) => {
-    console.log(err);
     throw err;
   });
 };

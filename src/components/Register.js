@@ -8,7 +8,6 @@ const Register = ({ register }) => {
   const history = useHistory();
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
     apis.get.csrfCookie().then(() => {
       apis.post.register(values).then((res) => {
         if (res.status === 201) {

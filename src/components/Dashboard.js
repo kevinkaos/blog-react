@@ -59,18 +59,23 @@ const Dashboard = () => {
   return (
     <div>
       <div className="dashboard-wrapper">
-        <Button onClick={() => getAllPosts()} style={{ marginRight: "1rem" }}>
-          All
-        </Button>
-        {categories.map((category) => (
+        <div>
           <Button
-            onClick={() => getPostsByCategory(category.id)}
-            style={{ marginRight: "1rem" }}
-            key={category.id}
+            onClick={() => getAllPosts()}
+            style={{ marginBottom: "1rem", display: "block" }}
           >
-            {category.name}
+            All
           </Button>
-        ))}
+          {categories.map((category) => (
+            <Button
+              onClick={() => getPostsByCategory(category.id)}
+              style={{ marginRight: "1rem", marginBottom: "1rem" }}
+              key={category.id}
+            >
+              {category.name}
+            </Button>
+          ))}
+        </div>
         <List
           className="comment-list"
           header={`${allPosts.length && pagination.total} blogs`}

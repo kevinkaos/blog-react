@@ -73,7 +73,7 @@ const Dashboard = () => {
         ))}
         <List
           className="comment-list"
-          header={`${allPosts.length && allPosts.length} blogs`}
+          header={`${allPosts.length && pagination.total} blogs`}
           itemLayout="horizontal"
           dataSource={allPosts}
           renderItem={(item) => (

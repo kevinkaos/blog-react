@@ -10,7 +10,6 @@ import PrivateRoute from "./utils/PrivateRoute";
 import apis from "./api/apis";
 import "antd/dist/antd.css";
 import Header from "./components/Header";
-import Post from "./components/Post";
 
 function App() {
   const [authed, setAuthed] = useState(

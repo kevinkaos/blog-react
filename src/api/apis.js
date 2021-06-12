@@ -4,6 +4,11 @@ import { csrfCookie } from "./index";
 
 const apis = {
   get: {
+    getSearchedPosts: (query = null, page = 1) =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/search/${query}?page=${page}`,
+      }),
     csrfCookie: () => csrfCookie(),
     getAllPosts: (page) =>
       api({

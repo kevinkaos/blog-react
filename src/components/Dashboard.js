@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Comment, List, Button, Pagination } from "antd";
+import { Comment, List, Button, Pagination, Input } from "antd";
 import moment from "moment";
 // import ReplyBox from "./ReplyBox";
 // import Header from "./Header";
 import apis from "../api/apis";
 
 const Dashboard = () => {
+  const { Search } = Input;
   const [allPosts, setAllPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [pagination, setPagination] = useState([]);
   const [active, setActive] = useState("");
   const [categoryId, setCategoryId] = useState(0);
   const [userId, setUserId] = useState(0);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     apis.get.getCategories().then((res) => {
@@ -19,6 +21,14 @@ const Dashboard = () => {
     });
     getAllPosts();
   }, []);
+
+  const getSearchedPosts = (query, page = 1) => {
+    apis.get.getSearchedPosts(query, page).then((res) => {
+      setAllPosts(res.data.data.data);
+      setPagination(res.data.data);
+      setActive("allSearchedPosts");
+    });
+  };
 
   const getAllPosts = (page = 1) => {
     apis.get.getAllPosts(page).then((res) => {
@@ -51,14 +61,25 @@ const Dashboard = () => {
       getAllPosts(page);
     } else if (type === "allPostsByCategory") {
       getPostsByCategory(categoryId, page);
-    } else {
+    } else if (type === "allPostsByUser") {
       getPostsByUserId(userId, page);
+    } else {
+      getSearchedPosts(query, page);
     }
   };
 
   return (
     <div>
       <div className="dashboard-wrapper">
+        <Search
+          placeholder="Search for a blog..."
+          onSearch={(query) => {
+            setQuery(query);
+            getSearchedPosts(query);
+          }}
+          enterButton
+          style={{ marginBottom: "1rem" }}
+        />
         <div>
           <Button
             onClick={() => getAllPosts()}
@@ -129,6 +150,14 @@ const Dashboard = () => {
           <Pagination
             current={pagination.current_page}
             onChange={(page) => onChange("allPostsByUser", page)}
+            simple
+            total={pagination.total}
+          />
+        )}
+        {active === "allSearchedPosts" && (
+          <Pagination
+            current={pagination.current_page}
+            onChange={(page) => onChange("allSearchedPosts", page)}
             simple
             total={pagination.total}
           />

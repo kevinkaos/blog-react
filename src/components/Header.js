@@ -11,6 +11,7 @@ const Header = ({ authed, logout }) => {
         ghost={false}
         title={<Button onClick={() => history.push("/")}>Home</Button>}
         onClick={() => history.push("/")}
+        onBack={() => window.history.back()}
         // subTitle={
         //   <button onClick={() => history.push("/dashboard")}>
         //     Read up on cool blogs
@@ -47,19 +48,7 @@ const Header = ({ authed, logout }) => {
         }
       >
         {/* <Descriptions size="small" column={3}>
-          <Descriptions.Item label="Created">Lili Qu</Descriptions.Item>
-          <Descriptions.Item label="Association">
-            <a>421421</a>
-          </Descriptions.Item>
-          <Descriptions.Item label="Creation Time">
-            2017-01-10
-          </Descriptions.Item>
-          <Descriptions.Item label="Effective Time">
-            2017-10-10
-          </Descriptions.Item>
-          <Descriptions.Item label="Remarks">
-            Gonghu Road, Xihu District, Hangzhou, Zhejiang, China
-          </Descriptions.Item>
+          <Descriptions.Item label="Categories"></Descriptions.Item>
         </Descriptions> */}
       </PageHeader>
     </div>

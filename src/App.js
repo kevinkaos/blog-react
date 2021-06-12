@@ -4,12 +4,13 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import PrivateRoute from "./utils/PrivateRoute";
 import apis from "./api/apis";
 import "antd/dist/antd.css";
 import Header from "./components/Header";
+import Post from "./components/Post";
 
 function App() {
   const [authed, setAuthed] = useState(
@@ -39,11 +40,7 @@ function App() {
   return (
     <Router history={createBrowserHistory}>
       <Header authed={authed} logout={logout} />
-      <Route
-        exact
-        path="/"
-        render={(props) => <Home {...props} logout={logout} authed={authed} />}
-      />
+      <Route exact path="/" render={(props) => <Home {...props} />} />
       <Route
         path="/login"
         render={(props) => <Login {...props} login={login} />}
@@ -53,12 +50,14 @@ function App() {
         render={(props) => <Register {...props} register={register} />}
       />
       <PrivateRoute
-        authed={authed}
-        logout={logout}
         component={Dashboard}
+        authed={authed}
         path="/dashboard"
         exact
       />
+      {/* <Switch>
+        <Route path="/categories/:categoryId" component={Post} />
+      </Switch> */}
     </Router>
   );
 }

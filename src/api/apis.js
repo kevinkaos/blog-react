@@ -5,10 +5,10 @@ import { csrfCookie } from "./index";
 const apis = {
   get: {
     csrfCookie: () => csrfCookie(),
-    getAllPosts: () =>
+    getAllPosts: (page) =>
       api({
         method: "GET",
-        url: `${baseUrl}/api/posts`,
+        url: `${baseUrl}/api/posts?page=${page}`,
       }),
     getPost: (postId) =>
       api({
@@ -19,6 +19,16 @@ const apis = {
       api({
         method: "GET",
         url: `${baseUrl}/api/categories`,
+      }),
+    getPostsByCategoryId: (categoryId, page) =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/posts/category/${categoryId}?page=${page}`,
+      }),
+    getPostsByUserId: (userId, page) =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/posts/user/${userId}?page=${page}`,
       }),
   },
   put: {},

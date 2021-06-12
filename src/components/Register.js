@@ -104,6 +104,7 @@ const Register = ({ register }) => {
           >
             Register
           </Button>
+          Or <a href="/login">login now!</a>
         </Form.Item>
       </Form>
     </div>

@@ -21,7 +21,7 @@ const Dashboard = ({ authed, logout }) => {
       <div className="dashboard-wrapper">
         <List
           className="comment-list"
-          header={`${allPosts.length && allPosts.length} replies`}
+          header={`${allPosts.length && allPosts.length} blogs`}
           itemLayout="horizontal"
           dataSource={allPosts}
           renderItem={(item) => (

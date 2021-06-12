@@ -27,8 +27,13 @@ const Dashboard = ({ authed, logout }) => {
           renderItem={(item) => (
             <li>
               <Comment
-                actions={[<span key="comment-list-reply-to-0">Reply to</span>]}
-                author={item.user.username}
+                actions={[
+                  <span key="comment-list-reply-to-0">
+                    {item.category.name}
+                  </span>,
+                  <span key="comment-list-reply-to-0">Reply to</span>,
+                ]}
+                author={<a href="#">{item.user.username}</a>}
                 content={item.body}
                 datetime={moment(item.updated_at).fromNow()}
               />

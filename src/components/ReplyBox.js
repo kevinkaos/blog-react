@@ -1,6 +1,6 @@
 import { Comment, Avatar, Form, Button, List, Input } from "antd";
 import moment from "moment";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const { TextArea } = Input;
 
@@ -16,7 +16,7 @@ const CommentList = ({ comments }) => (
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
   <>
     <Form.Item>
-      <TextArea rows={4} onChange={onChange} value={value} />
+      <TextArea rows={2} onChange={onChange} value={value} />
     </Form.Item>
     <Form.Item>
       <Button
@@ -25,69 +25,51 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
         onClick={onSubmit}
         type="primary"
       >
-        Add Comment
+        Add Reply
       </Button>
     </Form.Item>
   </>
 );
 
-class ReplyBox extends React.Component {
-  state = {
-    comments: [],
-    submitting: false,
-    value: "",
+const ReplyBox = () => {
+  const [comments, setComments] = useState([]);
+  const [submitting, setSubmitting] = useState(false);
+  const [value, setValue] = useState("");
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
   };
 
-  handleSubmit = () => {
-    if (!this.state.value) {
-      return;
-    }
+  const handleSubmit = () => {
+    if (!value) return;
 
-    this.setState({
-      submitting: true,
-    });
+    setSubmitting(true);
 
     setTimeout(() => {
-      this.setState({
-        submitting: false,
-        value: "",
-        comments: [
-          ...this.state.comments,
-          {
-            author: "Han Solo",
-            content: <p>{this.state.value}</p>,
-            datetime: moment().fromNow(),
-          },
-        ],
-      });
+      setSubmitting(false);
+      setValue("");
+      setComments((prevState) => [
+        ...prevState,
+        { author: "me", content: <p>{value}</p>, datetime: moment().fromNow() },
+      ]);
     }, 1000);
   };
 
-  handleChange = (e) => {
-    this.setState({
-      value: e.target.value,
-    });
-  };
-
-  render() {
-    const { comments, submitting, value } = this.state;
-
-    return (
-      <>
-        {comments.length > 0 && <CommentList comments={comments} />}
-        <Comment
-          content={
-            <Editor
-              onChange={this.handleChange}
-              onSubmit={this.handleSubmit}
-              submitting={submitting}
-              value={value}
-            />
-          }
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {comments.length > 0 && <CommentList comments={comments} />}
+      <Comment
+        content={
+          <Editor
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            submitting={submitting}
+            value={value}
+          />
+        }
+      />
+    </>
+  );
+};
 
 export default ReplyBox;

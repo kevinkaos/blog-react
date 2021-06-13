@@ -10,6 +10,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 import apis from "./api/apis";
 import "antd/dist/antd.css";
 import Header from "./components/Header";
+import Post from "./components/Post";
 
 function App() {
   const [authed, setAuthed] = useState(
@@ -54,9 +55,9 @@ function App() {
         path="/dashboard"
         exact
       />
-      {/* <Switch>
-        <Route path="/categories/:categoryId" component={Post} />
-      </Switch> */}
+      <Switch>
+        <Route path="/post/:postId" component={Post} />
+      </Switch>
     </Router>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Comment, List, Button, Pagination, Input } from "antd";
 import moment from "moment";
-// import ReplyBox from "./ReplyBox";
 // import Header from "./Header";
 import apis from "../api/apis";
+import { useHistory } from "react-router-dom";
 
 const Dashboard = () => {
   const { Search } = Input;
@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [categoryId, setCategoryId] = useState(0);
   const [userId, setUserId] = useState(0);
   const [query, setQuery] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     apis.get.getCategories().then((res) => {
@@ -114,7 +115,17 @@ const Dashboard = () => {
                       {item.category.name}
                     </span>
                   </span>,
-                  <span key="comment-list-reply-to-0">Reply to</span>,
+                  <span
+                    onClick={() =>
+                      history.push({
+                        pathname: `/post/${item.id}`,
+                        state: item,
+                      })
+                    }
+                    key="comment-list-reply-to-0"
+                  >
+                    Reply to
+                  </span>,
                 ]}
                 author={
                   <span
@@ -124,7 +135,22 @@ const Dashboard = () => {
                     {item.user.username}
                   </span>
                 }
-                content={item.body}
+                content={
+                  <div>
+                    <h2
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        history.push({
+                          pathname: `/post/${item.id}`,
+                          state: item,
+                        })
+                      }
+                    >
+                      {item.title}
+                    </h2>
+                    <p>{item.body}</p>
+                  </div>
+                }
                 datetime={moment(item.updated_at).fromNow()}
               />
             </li>

@@ -45,7 +45,7 @@ const apis = {
   },
   put: {},
   post: {
-    setPost: (postData) => {
+    createPost: (postData) => {
       return api({
         method: "POST",
         url: `${baseUrl}/api/post`,

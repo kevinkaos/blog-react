@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, PageHeader, Select, Button } from "antd";
 import apis from "../api/apis";
+import { useHistory } from "react-router-dom";
 
 const CreateEditBlog = () => {
   const { Option } = Select;
   const [categories, setCategories] = useState([]);
   const [selected, setSelected] = useState(1);
+  const history = useHistory();
 
   useEffect(() => {
     apis.get.getCategories().then((res) => {
@@ -14,7 +16,12 @@ const CreateEditBlog = () => {
   }, []);
 
   const onFinish = (values) => {
-    console.log(values);
+    apis.post.createPost(values).then((res) => {
+      history.push({
+        pathname: `/post/${res.data.data.id}`,
+        state: res.data.data,
+      });
+    });
   };
 
   const handleSelectChange = (value) => {
@@ -35,7 +42,7 @@ const CreateEditBlog = () => {
       <PageHeader title="Create a blog" />
       <Form
         {...formItemLayout}
-        initialValues={{ title: "", category: selected, body: "" }}
+        initialValues={{ title: "", category_id: selected, body: "" }}
         name="nest-messages"
         onFinish={onFinish}
       >
@@ -54,7 +61,7 @@ const CreateEditBlog = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item name={"category"} label="Category">
+        <Form.Item name={"category_id"} label="Category">
           <Select value={selected} onChange={handleSelectChange}>
             {categories.map((category) => (
               <Option key={category.id} value={category.id}>

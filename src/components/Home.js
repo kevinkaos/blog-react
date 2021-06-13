@@ -21,6 +21,15 @@ const Home = () => {
             </div>
           }
         />
+        <PageHeader
+          title={
+            <div>
+              <Button onClick={() => history.push("/create-blog")}>
+                Create a new blog
+              </Button>
+            </div>
+          }
+        />
 
         {/* <PageHeader title="Leave a comment about our site!" /> */}
       </div>

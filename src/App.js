@@ -11,6 +11,7 @@ import apis from "./api/apis";
 import "antd/dist/antd.css";
 import Header from "./components/Header";
 import Post from "./components/Post";
+import CreateEditBlog from "./components/CreateEditBlog";
 
 function App() {
   const [authed, setAuthed] = useState(
@@ -54,6 +55,11 @@ function App() {
         authed={authed}
         path="/dashboard"
         exact
+      />
+      <PrivateRoute
+        authed={authed}
+        component={CreateEditBlog}
+        path="/create-blog"
       />
       <Switch>
         <Route path="/post/:postId" component={Post} />

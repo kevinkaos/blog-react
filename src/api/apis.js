@@ -37,6 +37,11 @@ const apis = {
         method: "GET",
         url: `${baseUrl}/api/posts/user/${userId}?page=${page}`,
       }),
+    getCommentsByPostId: (postId) =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/comments/${postId}`,
+      }),
   },
   put: {},
   post: {

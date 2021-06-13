@@ -21,7 +21,7 @@ const Post = ({ location: { state } }) => {
         }
         datetime={moment(state.updated_at).fromNow()}
       />
-      <ReplyBox />
+      <ReplyBox postId={state.id} />
     </div>
   );
 };

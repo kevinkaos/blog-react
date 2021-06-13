@@ -6,7 +6,6 @@ import apis from "../api/apis";
 const { TextArea } = Input;
 
 const CommentList = ({ comments }) => {
-  console.log(comments);
   return (
     <div style={{ padding: "2rem" }}>
       <List
@@ -68,15 +67,11 @@ const ReplyBox = ({ postId }) => {
     if (!value) return;
 
     setSubmitting(true);
-
-    setTimeout(() => {
+    apis.post.commentOnPost({ body: value }, postId).then((res) => {
       setSubmitting(false);
       setValue("");
-      setComments((prevState) => [
-        ...prevState,
-        { author: "me", content: <p>{value}</p>, datetime: moment().fromNow() },
-      ]);
-    }, 1000);
+      setComments((prevState) => [...prevState, res.data.data]);
+    });
   };
 
   return (

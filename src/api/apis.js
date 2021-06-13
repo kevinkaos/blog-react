@@ -59,6 +59,12 @@ const apis = {
         data: postData,
       });
     },
+    commentOnPost: (commentData, postId) =>
+      api({
+        method: "POST",
+        url: `${baseUrl}/api/comment/${postId}`,
+        data: commentData,
+      }),
     register: (registrationData) => {
       return api({
         method: "POST",

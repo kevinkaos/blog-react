@@ -3,25 +3,41 @@ import { Form, Input, PageHeader, Select, Button } from "antd";
 import apis from "../api/apis";
 import { useHistory } from "react-router-dom";
 
-const CreateEditBlog = () => {
+const CreateEditBlog = ({ location: { state } }) => {
   const { Option } = Select;
   const [categories, setCategories] = useState([]);
   const [selected, setSelected] = useState(1);
+  const [editBlogValues, setEditBlogValues] = useState({
+    body: state ? state.body : "",
+    category_id: state ? state.category_id : 1,
+    title: state ? state.title : "",
+  });
   const history = useHistory();
 
   useEffect(() => {
     apis.get.getCategories().then((res) => {
       setCategories(res.data.data);
     });
-  }, []);
 
-  const onFinish = (values) => {
-    apis.post.createPost(values).then((res) => {
-      history.push({
-        pathname: `/post/${res.data.data.id}`,
-        state: res.data.data,
+    setEditBlogValues(state);
+  }, [state]);
+
+  const onFinish = (values, type) => {
+    if (type === "edit") {
+      apis.post.updatePost(values, state.id).then((res) => {
+        history.push({
+          pathname: `/post/${res.data.data.id}`,
+          state: res.data.data,
+        });
       });
-    });
+    } else {
+      apis.post.createPost(values).then((res) => {
+        history.push({
+          pathname: `/post/${res.data.data.id}`,
+          state: res.data.data,
+        });
+      });
+    }
   };
 
   const handleSelectChange = (value) => {
@@ -39,12 +55,20 @@ const CreateEditBlog = () => {
 
   return (
     <div className="dashboard-wrapper">
-      <PageHeader title="Create a blog" />
+      <PageHeader title={state ? "Edit your blog" : "Create a blog"} />
       <Form
         {...formItemLayout}
-        initialValues={{ title: "", category_id: selected, body: "" }}
+        initialValues={
+          state
+            ? {
+                title: editBlogValues.title,
+                category_id: editBlogValues.category_id,
+                body: editBlogValues.body,
+              }
+            : { title: "", category_id: selected, body: "" }
+        }
         name="nest-messages"
-        onFinish={onFinish}
+        onFinish={(values) => onFinish(values, state ? "edit" : "create")}
       >
         <Form.Item
           name={"title"}
@@ -87,7 +111,7 @@ const CreateEditBlog = () => {
         </Form.Item>
         <Form.Item {...formTailLayout}>
           <Button type="primary" htmlType="submit">
-            Create blog
+            {state ? "Save Edit" : "Create blog"}
           </Button>
         </Form.Item>
       </Form>

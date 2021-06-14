@@ -59,7 +59,7 @@ function App() {
       <PrivateRoute
         authed={authed}
         component={CreateEditBlog}
-        path="/create-blog"
+        path={["/create-blog", "/edit-blog"]}
       />
       <Switch>
         <Route path="/post/:postId" component={Post} />

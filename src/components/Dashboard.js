@@ -128,12 +128,28 @@ const Dashboard = () => {
                   </span>,
                 ]}
                 author={
-                  <span
-                    style={{ cursor: "pointer" }}
-                    onClick={() => getPostsByUserId(item.user.id)}
-                  >
-                    {item.user.username}
-                  </span>
+                  <div>
+                    <span
+                      style={{ cursor: "pointer" }}
+                      onClick={() => getPostsByUserId(item.user.id)}
+                    >
+                      {item.user.username}
+                    </span>
+                    {item.user.id === 1 && (
+                      <span
+                        style={{
+                          cursor: "pointer",
+                          marginLeft: "1rem",
+                          color: "#1890FF",
+                        }}
+                        onClick={() =>
+                          history.push({ pathname: "/edit-blog", state: item })
+                        }
+                      >
+                        Edit Post
+                      </span>
+                    )}
+                  </div>
                 }
                 content={
                   <div>

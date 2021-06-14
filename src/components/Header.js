@@ -1,10 +1,19 @@
 import { PageHeader, Button, Descriptions } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import UserProfile from "./UserProfile";
 
 const Header = ({ authed, logout }) => {
   const history = useHistory();
+  const [visible, setVisible] = useState(false);
 
+  const showDrawer = () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
   return (
     <div className="site-page-header-ghost-wrapper">
       <PageHeader
@@ -29,7 +38,7 @@ const Header = ({ authed, logout }) => {
                 >
                   Logout
                 </Button>,
-                <Button key="1" type="primary">
+                <Button key="1" type="primary" onClick={() => showDrawer()}>
                   Profile
                 </Button>,
               ]
@@ -51,6 +60,7 @@ const Header = ({ authed, logout }) => {
           <Descriptions.Item label="Categories"></Descriptions.Item>
         </Descriptions> */}
       </PageHeader>
+      <UserProfile visible={visible} onClose={onClose} />
     </div>
   );
 };

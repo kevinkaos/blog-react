@@ -4,6 +4,11 @@ import { csrfCookie } from "./index";
 
 const apis = {
   get: {
+    getAuthenticatedUser: () =>
+      api({
+        method: "GET",
+        url: `${baseUrl}/api/user`,
+      }),
     getSearchedPosts: (query = "", page = 1) =>
       api({
         method: "GET",
@@ -45,6 +50,12 @@ const apis = {
   },
   put: {},
   post: {
+    updateUser: (userData) =>
+      api({
+        method: "POST",
+        url: `${baseUrl}/api/user`,
+        data: userData,
+      }),
     createPost: (postData) => {
       return api({
         method: "POST",

@@ -12,7 +12,7 @@ const Dashboard = () => {
   const [pagination, setPagination] = useState([]);
   const [active, setActive] = useState("");
   const [categoryId, setCategoryId] = useState(0);
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState(null);
   const [query, setQuery] = useState("");
   const history = useHistory();
 
@@ -24,10 +24,11 @@ const Dashboard = () => {
   }, []);
 
   const getSearchedPosts = (query, page = 1) => {
-    apis.get.getSearchedPosts(query, page).then((res) => {
+    apis.get.getSearchedPosts(query, categoryId, page).then((res) => {
       setAllPosts(res.data.data.data);
       setPagination(res.data.data);
       setActive("allSearchedPosts");
+      setQuery("");
     });
   };
 
@@ -36,6 +37,7 @@ const Dashboard = () => {
       setAllPosts(res.data.data.data);
       setPagination(res.data.data);
       setActive("allPosts");
+      setCategoryId(null);
     });
   };
 
@@ -72,25 +74,29 @@ const Dashboard = () => {
   return (
     <div>
       <div className="dashboard-wrapper">
-        <Search
-          placeholder="Search for a blog..."
-          onSearch={(query) => {
-            setQuery(query);
-            getSearchedPosts(query);
-          }}
-          enterButton
-          style={{ marginBottom: "1rem" }}
-        />
         <div>
           <Button
-            onClick={() => getAllPosts()}
+            type={active === "allPosts" && "primary"}
+            onClick={() => {
+              setQuery("");
+              getAllPosts();
+            }}
             style={{ marginBottom: "1rem", display: "block" }}
           >
             All
           </Button>
           {categories.map((category) => (
             <Button
-              onClick={() => getPostsByCategory(category.id)}
+              type={
+                (active === "allPostsByCategory" ||
+                  active === "allSearchedPosts") &&
+                categoryId === category.id &&
+                "primary"
+              }
+              onClick={() => {
+                setQuery("");
+                getPostsByCategory(category.id);
+              }}
               style={{ marginRight: "1rem", marginBottom: "1rem" }}
               key={category.id}
             >
@@ -98,6 +104,18 @@ const Dashboard = () => {
             </Button>
           ))}
         </div>
+        <Search
+          placeholder="Search for a blog..."
+          onSearch={(query) => {
+            getSearchedPosts(query);
+          }}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }}
+          value={query}
+          enterButton
+          style={{ marginBottom: "1rem" }}
+        />
         <List
           className="comment-list"
           header={`${allPosts.length && pagination.total} blogs`}

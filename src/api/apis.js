@@ -9,11 +9,15 @@ const apis = {
         method: "GET",
         url: `${baseUrl}/api/user`,
       }),
-    getSearchedPosts: (query = "", page = 1) =>
+    getSearchedPosts: (query = "", category_id = null, page = 1) =>
       api({
         method: "GET",
         url: `${baseUrl}/api/search/${
-          query ? `?search=${query}&page=${page}` : `?page=${page}`
+          query && category_id
+            ? `?search=${query}&category_id=${category_id}&page=${page}`
+            : query && !category_id
+            ? `?search=${query}&page=${page}`
+            : `?page=${page}`
         }`,
       }),
     csrfCookie: () => csrfCookie(),

@@ -71,13 +71,24 @@ const UserProfile = ({ visible, onClose }) => {
           bordered={false}
         />
         {editing && (
-          <Button
-            type="primary"
-            onClick={() => submitEditUser()}
-            style={{ width: "100%", marginTop: "1rem" }}
-          >
-            Submit
-          </Button>
+          <div>
+            <Button
+              type="primary"
+              onClick={() => submitEditUser()}
+              style={{ width: "100%", marginTop: "1rem" }}
+            >
+              Submit
+            </Button>
+            <Button
+              type="danger"
+              onClick={() => {
+                setEditing(false);
+              }}
+              style={{ width: "100%", marginTop: "1rem" }}
+            >
+              Cancel
+            </Button>
+          </div>
         )}
       </Drawer>
     </>

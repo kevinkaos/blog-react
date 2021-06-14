@@ -142,7 +142,7 @@ const Dashboard = () => {
                     }
                     key="comment-list-reply-to-0"
                   >
-                    Reply to
+                    Comment
                   </span>,
                 ]}
                 author={
